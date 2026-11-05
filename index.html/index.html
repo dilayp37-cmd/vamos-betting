@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAMOS BETTING</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d14;color:white;font-family:Arial,sans-serif}
+header{background:#101923;padding:18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold;color:#ff9b27}
+.balance{background:#087b91;padding:12px;border-radius:12px}
+nav{display:flex;justify-content:space-around;background:#101923;padding:15px;position:sticky;top:0}
+nav a{color:white;text-decoration:none;font-size:13px}
+.banner{margin:15px;padding:24px;background:linear-gradient(120deg,#07576c,#102b42);border-radius:15px}
+.banner h1{color:#ffad35}
+h3{padding:0 15px}
+.match{background:#15232e;margin:12px;padding:15px;border-radius:12px}
+.league{color:#ffad35;font-size:13px}
+.teams{font-size:17px;font-weight:bold;margin:14px 0}
+.odds{display:flex;gap:8px}
+.odd{flex:1;background:#263b49;color:white;border:1px solid #365366;padding:13px 5px;border-radius:8px;font-weight:bold}
+.odd:active,.odd.selected{background:#e98b20;color:#111}
+button{cursor:pointer}
+#slip{background:#14212c;margin:15px;padding:15px;border-radius:12px}
+#selection{padding:10px 0}
+input{width:100%;padding:12px;border-radius:8px;border:0;margin:10px 0}
+.action{background:#f39a27;color:#111;border:0;padding:13px;border-radius:8px;width:100%;font-weight:bold}
+.small{color:#9baab6;font-size:12px}
+footer{text-align:center;color:#9baab6;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">VAMOS BETTING</div>
+<div class="balance">ETB <b id="balance">1000.00</b><br><small>Demo Wallet</small></div>
+</header>
+<nav>
+<a href="#home">Home</a>
+<a href="#matches">Games</a>
+<a href="#slip">Bet Slip</a>
+<a href="#wallet">Wallet</a>
+</nav>
+<section class="banner" id="home">
+<h1>VAMOS BETTING</h1>
+<h2>Welcome to Vamos!</h2>
+<p>Football • Live Games • Sports</p>
+<p>እንኳን ወደ VAMOS BETTING በደህና መጡ!</p>
+</section>
+<h3>⚽ Football Matches / የእግር ኳስ ጨዋታዎች</h3>
+<div id="matches">
+<div class="match">
+<div class="league">Premier League</div>
+<div class="teams">Arsenal vs Chelsea</div>
+<div class="odds">
+<button class="odd" onclick="choose(this,'Arsenal',2.10)">1<br>2.10</button>
+<button class="odd" onclick="choose(this,'Draw',3.20)">X<br>3.20</button>
+<button class="odd" onclick="choose(this,'Chelsea',2.80)">2<br>2.80</button>
+</div>
+</div>
+<div class="match">
+<div class="league">La Liga</div>
+<div class="teams">Real Madrid vs Barcelona</div>
+<div class="odds">
+<button class="odd" onclick="choose(this,'Real Madrid',2.00)">1<br>2.00</button>
+<button class="odd" onclick="choose(this,'Draw',3.50)">X<br>3.50</button>
+<button class="odd" onclick="choose(this,'Barcelona',2.40)">2<br>2.40</button>
+</div>
+</div>
+<div class="match">
+<div class="league">Serie A</div>
+<div class="teams">Inter vs AC Milan</div>
+<div class="odds">
+<button class="odd" onclick="choose(this,'Inter',1.90)">1<br>1.90</button>
+<button class="odd" onclick="choose(this,'Draw',3.10)">X<br>3.10</button>
+<button class="odd" onclick="choose(this,'AC Milan',2.60)">2<br>2.60</button>
+</div>
+</div>
+</div>
+<section id="slip">
+<h3>🎫 Bet Slip / የቤት ምርጫ</h3>
+<div id="selection">No selection yet / ምርጫ የለም</div>
+<label>Demo Stake / የሙከራ ውርርድ</label>
+<input id="stake" type="number" value="10" min="1" oninput="calculate()">
+<p>Possible return: ETB <b id="return">0.00</b></p>
+<button class="action" onclick="placeBet()">Place Demo Bet</button>
+<p class="small">Virtual money only. No real deposits or withdrawals.</p>
+</section>
+<section id="wallet" class="banner">
+<h3>👛 My Wallet / የእኔ ቦርሳ</h3>
+<p>Demo Balance: ETB <b id="walletBalance">1000.00</b></p>
+<p class="small">This is a simulated balance, not real money.</p>
+</section>
+<footer>
+<b>VAMOS BETTING</b><br>
+Sports Demo Platform<br>
+English | አማርኛ<br><br>
+© 2026 VAMOS
+</footer>
+<script>
+let balance=1000;
+let selected=null;
+function choose(btn,name,odd){
+document.querySelectorAll('.odd').forEach(b=>b.classList.remove('selected'));
+btn.classList.add('selected');
+selected={name,odd};
+document.getElementById('selection').innerText=name+' @ '+odd;
+calculate();
+}
+function calculate(){
+let stake=Number(document.getElementById('stake').value)||0;
+document.getElementById('return').innerText=selected?(stake*selected.odd).toFixed(2):'0.00';
+}
+function placeBet(){
+if(!selected){alert('Please select an outcome first!');return;}
+let stake=Number(document.getElementById('stake').value);
+if(stake<=0||stake>balance){alert('Invalid demo stake or insufficient demo balance');return;}
+balance-=stake;
+document.getElementById('balance').innerText=balance.toFixed(2);
+document.getElementById('walletBalance').innerText=balance.toFixed(2);
+alert('Demo bet placed! Virtual balance updated.');
+selected=null;
+document.getElementById('selection').innerText='No selection yet';
+document.querySelectorAll('.odd').forEach(b=>b.classList.remove('selected'));
+calculate();
+}
+</script>
+</body>
+</html>
